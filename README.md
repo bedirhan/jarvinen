@@ -1,7 +1,7 @@
 jarvinen
 ========
 
-apt-get install libpcre3-dev
+apt-get install libpcre3-dev geoip-database libgeoip-dev
 
 gcc -o jarvinen jarvinen.c -lpthread -lpcre
 
