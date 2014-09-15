@@ -11,6 +11,7 @@ jarvinen
 ####### ./jarvinen -l sample.log -x ids.rules -s apache -t 20
 
 #### ToDo
+ * logging
  * geoip
  * nginx
  * iss
