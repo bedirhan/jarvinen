@@ -46,16 +46,14 @@ int main(int argc, char *argv[])
     	int maxThread, erroffset, result, semval, check, i, k;
 
 	char *targ;
-	char *sarg;
 	int lflag = 0;
 	int xflag = 0;    
 	int tflag = 0;
-	int sflag = 0;
 	int ch;
 
     	FILE *log;
 
-	while ((ch = getopt(argc, argv, "l:x:s:t:")) != -1)
+	while ((ch = getopt(argc, argv, "l:f:t:")) != -1)
 		switch (ch) {
 			case 'l':
 				lflag = 1;
@@ -64,10 +62,6 @@ int main(int argc, char *argv[])
 			case 'x':
 				xflag = 1;
 				idsfile = optarg;
-				break;
-			case 's':
-				sflag = 1;
-				sarg = optarg;
 				break;
 			case 't':
 				tflag = 1;
@@ -87,26 +81,8 @@ int main(int argc, char *argv[])
 	} else if (!xflag) {
 		fprintf(stderr, "-x switch must be specified!\n");
                 exit(EXIT_FAILURE);
-	} else if (!sflag) {
-		fprintf(stderr, "-s switch must be specified!\n");
-                exit(EXIT_FAILURE);
 	}
 
-	check = 0;
-	for(i=0; server_type[i] != NULL; i++) {
-		if (strcmp(server_type[i], sarg) == 0) {
-			check = 1;
-			break;	
-		}
-	}
-
-	if (check == 0) {
-		fprintf(stderr, "\'%s\' is not valid server type. Please use one of them => ", sarg);
-		for (i=0; server_type[i] != NULL; i++)
-			printf("\'%s\' ", server_type[i]);
-		printf("\n");
-		exit(EXIT_FAILURE);
-	}
 	maxThread = (int) strtol(targ, NULL, 10);
 
 	parseDoc (idsfile, idsxml);
