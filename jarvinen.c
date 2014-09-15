@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 				logfile = optarg;
 				break;
 			case 'f':
-				xflag = 1;
+				fflag = 1;
 				idsfile = optarg;
 				break;
 			case 't':
