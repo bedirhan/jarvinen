@@ -26,8 +26,8 @@ struct IDS_XML_NODE {
         xmlChar *description;
         xmlChar *impact;
         xmlChar *tag[TAG_COUNT];
-}*idsxml[IDS_COUNT];
-
+};
+struct IDS_XML_NODE *idsxml[IDS_COUNT];
 
 void parse_node (xmlDocPtr doc, xmlNodePtr cur, struct IDS_XML_NODE *idsxml);
 static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml);
