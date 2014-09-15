@@ -15,10 +15,6 @@
 // apt-get install libpcre3-dev libxml2-dev geoip-database libgeoip-dev
 // gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
 
-sem_t g_sem;
-pcre *list[IDS_COUNT];
-char *idslist[IDS_COUNT];
-
 struct IDS_XML_NODE {
         xmlChar *id;
         xmlChar *rule;
@@ -26,7 +22,12 @@ struct IDS_XML_NODE {
         xmlChar *impact;
         xmlChar *tag[TAG_COUNT];
 };
+
 struct IDS_XML_NODE *idsxml[IDS_COUNT];
+
+sem_t g_sem;
+pcre *list[IDS_COUNT];
+char *idslist[IDS_COUNT];
 
 void parse_node (xmlDocPtr doc, xmlNodePtr cur, struct IDS_XML_NODE *idsxml);
 static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml);
