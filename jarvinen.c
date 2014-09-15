@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 	for(i=0; idsxml[i] != NULL; i++) {
 		list[i] = pcre_compile( (char *)idsxml[i]->rule, 0, &error, &erroffset, NULL );
 		if (list[i] == NULL) {
-                        fprintf(stderr, "PCRE compilation: %s failed at offset %d: %s\n", idslist[i], erroffset, error);
+                        fprintf(stderr, "PCRE compilation: %s failed at offset %d: %s\n", (char *)idsxml[i]->rule, erroffset, error);
                         exit(EXIT_FAILURE);
                 }
         }
