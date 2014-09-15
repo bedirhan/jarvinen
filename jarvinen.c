@@ -34,7 +34,7 @@ static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml);
 void *apache_parser(void *param);
 
 
-int main(int argc, const char **argv)
+int main(int argc, char *argv[])
 {
     	pthread_t tid;
 
