@@ -10,6 +10,7 @@
 #define TAG_COUNT 32
 #define OVECCOUNT 30
 #define IDS_COUNT 1024
+#define LOG_LINE 8092
 
 // apt-get install libpcre3-dev libxml2-dev geoip-database libgeoip-dev
 // gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
@@ -40,7 +41,7 @@ int main(int argc, char *argv[])
     	char *logfile;
     	char *idsfile;
 	char *line; 
-	char log_line[8092];
+	char log_line[LOG_LINE];
 	const char *error;
     	int maxThread, erroffset, result, semval, check, i, k;
 
@@ -130,7 +131,7 @@ int main(int argc, char *argv[])
     	}
     
     	while ( (fgets(log_line, sizeof(log_line), log) ) != NULL) {
-		line = (char *)malloc(1024);
+		line = (char *)malloc(LOG_LINE);
 		strncpy(line, log_line, strlen(log_line)+1);
 		sem_wait(&g_sem);
 		if ((result = pthread_create(&tid, NULL, (void *)apache_parser, (void *)line)) != 0) {
