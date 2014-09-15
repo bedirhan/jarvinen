@@ -222,11 +222,6 @@ static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml) {
 
 
 void parse_node (xmlDocPtr doc, xmlNodePtr cur, struct IDS_XML_NODE *idsxml) {
-        xmlChar *id;
-        xmlChar *rule;
-        xmlChar *description;
-        xmlChar *impact;
-        xmlChar *tag[TAG_COUNT];
         xmlNodePtr tmp_cur;
         int count = 0;
 
