@@ -25,11 +25,13 @@ struct IDS_XML_NODE {
         xmlChar *description;
         xmlChar *impact;
         xmlChar *tag[TAG_COUNT];
-};
+}*idsxml[IDS_COUNT];
+
 
 void parse_node (xmlDocPtr doc, xmlNodePtr cur, struct IDS_XML_NODE *idsxml);
 static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml);
 void *apache_parser(void *param);
+
 
 int main(int argc, char *argv[])
 {
@@ -51,10 +53,7 @@ int main(int argc, char *argv[])
 	int ch;
 
     	FILE *log;
-    	FILE *ids;
- 
-	struct IDS_XML_NODE *idsxml[IDS_COUNT];
-   
+
 	while ((ch = getopt(argc, argv, "l:x:s:t:")) != -1)
 		switch (ch) {
 			case 'l':
@@ -111,16 +110,13 @@ int main(int argc, char *argv[])
 
 	parseDoc (idsfile, idsxml);
 	for(i=0; idsxml[i] != NULL; i++) {
-		idslist[i] = (char *)malloc(IDS_COUNT);
-		strncpy(idslist[i], (char *)idsxml[i]->rule, strlen((char *)idsxml[i]->rule)+1);
-		list[i] = pcre_compile( idslist[i], 0, &error, &erroffset, NULL );
+		list[i] = pcre_compile( (char *)idsxml[i]->rule, 0, &error, &erroffset, NULL );
 		if (list[i] == NULL) {
                         fprintf(stderr, "PCRE compilation: %s failed at offset %d: %s\n", idslist[i], erroffset, error);
                         exit(EXIT_FAILURE);
                 }
         }
-	idslist[i] = NULL;
-        list[i] = NULL;
+	list[i] = NULL;
 
     	log = fopen(logfile, "r");
     	if (log == NULL) {
@@ -128,13 +124,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
     	}
     
-    	ids = fopen(idsfile, "r");
-    	if (ids == NULL) {
-		fprintf(stderr, "\"%s\" Dosyasi Acilamadi !\n", idsfile);
-		exit(EXIT_FAILURE);
-    	}
-     
-        if (sem_init(&g_sem, 0, maxThread) < 0) {
+    	if (sem_init(&g_sem, 0, maxThread) < 0) {
 		perror("sem_init");
 		exit(EXIT_FAILURE);
     	}
@@ -142,7 +132,6 @@ int main(int argc, char *argv[])
     	while ( (fgets(log_line, sizeof(log_line), log) ) != NULL) {
 		line = (char *)malloc(1024);
 		strncpy(line, log_line, strlen(log_line)+1);
-	
 		sem_wait(&g_sem);
 		if ((result = pthread_create(&tid, NULL, (void *)apache_parser, (void *)line)) != 0) {
 			fprintf(stderr, "pthread_create: %s\n", strerror(result));
@@ -150,16 +139,12 @@ int main(int argc, char *argv[])
 		}
 		pthread_detach(tid);
     	}
+	fclose(log);
   
     	while (sem_getvalue(&g_sem, &semval), semval != maxThread) 
 		usleep(100000);
 
-	for(i=0; list[i] != NULL; i++) {
-		idslist[i];
-	        pcre_free(list[i]);
-	}
-	
-	for (i=0; idsxml[i] != NULL; i++) {
+	for (i=0; idsxml[i] != NULL; i++) { 
 	    xmlFree(idsxml[i]->id);
 	    xmlFree(idsxml[i]->rule);
 	    xmlFree(idsxml[i]->description);
@@ -167,19 +152,18 @@ int main(int argc, char *argv[])
 	    for(k=0; idsxml[i]->tag[k] != NULL; k++)
 		xmlFree(idsxml[i]->tag[k]);
 	    free(idsxml[i]);
+	    pcre_free(list[i]);
 	}
-	
-    	fclose(log);
-	    
+    	   
 	pthread_exit(NULL);
+	
     	return 0;
 }
 
 void *apache_parser(void *param)
 {
 	pcre *re;
-
-	int k,rc,count;
+	int rc,count,i,k;
 	int ovector[OVECCOUNT];
 	char seperator[2] = " ";
 	char *token;
@@ -196,8 +180,15 @@ void *apache_parser(void *param)
 		strncpy(tmp_line, token, strlen(token) + 1);	
 		for (k = 0; list[k] != NULL; k++) {
 	            	rc = pcre_exec( list[k], NULL, token, (int)strlen(token), 0, 0, ovector, OVECCOUNT );
-			if (rc > 0)
-	               		printf("Match: %s <=> Regex: %s -\n", tmp_line, idslist[k]);
+			if (rc > 0) {
+	               		printf("Match: %d - %s <=> Regex: %s -\n", k+1, tmp_line, idsxml[k]->rule);
+				for (i=0; idsxml[k]->tag[i] != NULL; i++) {
+				    if (idsxml[k]->tag[i+1] == NULL)
+					printf("%s\n", idsxml[k]->tag[i]);
+				    else
+					printf("%s,", idsxml[k]->tag[i]);
+				}
+			}	
 		}
 		break;
 	    }
