@@ -11,7 +11,7 @@
 #define OVECCOUNT 30
 #define IDS_COUNT 1024
 
-// apt-get install  libxml2-dev
+// apt-get install libpcre3-dev libxml2-dev geoip-database libgeoip-dev
 // gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
 
 sem_t g_sem;
