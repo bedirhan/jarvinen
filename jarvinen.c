@@ -18,7 +18,6 @@
 sem_t g_sem;
 pcre *list[IDS_COUNT];
 char *idslist[IDS_COUNT];
-char *server_type[2] = {"apache", NULL};
 
 struct IDS_XML_NODE {
         xmlChar *id;
@@ -47,7 +46,7 @@ int main(int argc, char *argv[])
 
 	char *targ;
 	int lflag = 0;
-	int xflag = 0;    
+	int fflag = 0;    
 	int tflag = 0;
 	int ch;
 
@@ -59,7 +58,7 @@ int main(int argc, char *argv[])
 				lflag = 1;
 				logfile = optarg;
 				break;
-			case 'x':
+			case 'f':
 				xflag = 1;
 				idsfile = optarg;
 				break;
@@ -78,8 +77,8 @@ int main(int argc, char *argv[])
 	} else if (!lflag) {
 		fprintf(stderr, "-l switch must be specified!\n");
                 exit(EXIT_FAILURE);
-	} else if (!xflag) {
-		fprintf(stderr, "-x switch must be specified!\n");
+	} else if (!fflag) {
+		fprintf(stderr, "-f switch must be specified!\n");
                 exit(EXIT_FAILURE);
 	}
 
