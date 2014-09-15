@@ -6,31 +6,7 @@
 #include <getopt.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-
-#define TAG_COUNT 32
-#define OVECCOUNT 30
-#define IDS_COUNT 1024
-#define LOG_LINE 8092
-
-// apt-get install libpcre3-dev libxml2-dev geoip-database libgeoip-dev
-// gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
-
-struct IDS_XML_NODE {
-        xmlChar *id;
-        xmlChar *rule;
-        xmlChar *description;
-        xmlChar *impact;
-        xmlChar *tag[TAG_COUNT];
-};
-
-struct IDS_XML_NODE *idsxml[IDS_COUNT];
-
-sem_t g_sem;
-pcre *list[IDS_COUNT];
-
-void parse_node (xmlDocPtr doc, xmlNodePtr cur, struct IDS_XML_NODE *idsxml);
-static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml);
-void *apache_parser(void *param);
+#include "jarvinen.h
 
 
 int main(int argc, char *argv[])
