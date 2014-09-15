@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	int tflag = 0;
 	int ch;
 
-    	FILE *log;
+    	FILE *log; 
 
 	while ((ch = getopt(argc, argv, "l:f:t:")) != -1)
 		switch (ch) {
