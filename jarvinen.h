@@ -1,6 +1,6 @@
 #define TAG_COUNT 32
-#define OVECCOUNT 30
 #define IDS_COUNT 1024
+#define OVECCOUNT 30
 #define LOG_LINE 8092
 
 sem_t g_sem;
