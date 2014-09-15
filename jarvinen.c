@@ -27,7 +27,6 @@ struct IDS_XML_NODE *idsxml[IDS_COUNT];
 
 sem_t g_sem;
 pcre *list[IDS_COUNT];
-char *idslist[IDS_COUNT];
 
 void parse_node (xmlDocPtr doc, xmlNodePtr cur, struct IDS_XML_NODE *idsxml);
 static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml);
