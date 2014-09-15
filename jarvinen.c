@@ -6,7 +6,7 @@
 #include <getopt.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#include "jarvinen.h
+#include "jarvinen.h"
 
 
 int main(int argc, char *argv[])
