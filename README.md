@@ -15,7 +15,16 @@ gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
 
 Usage 
 -----
-./jarvinen -t 10 -l sample.log -f ids.rules 
+At first, ids.xml file should be downloaded from at https://github.com/PHPIDS/PHPIDS/blob/master/lib/IDS/default_filter.xml
+
+./jarvinen -t 10 -l sample.log -f default_filter.xml
+
+SAmple output;
+...
+...
+xss,csrf - /wp-content/plugins/sociable/js/sociable.js?ver=3.4.1 - X.X.X.X - 15/Sep/2012:20:45:39
+xss,csrf - /wp-content/plugins/sociable/js/addtofavorites.js?ver=3.4.1 - X.X.X.X - 15/Sep/2012:20:45:39
+
 
 
 ToDo
