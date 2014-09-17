@@ -119,27 +119,31 @@ void *apache_parser(void *param)
 	int ovector[OVECCOUNT];
 	char seperator[2] = " ";
 	char *token;
-	char tmp_line[1024];
+	char timestamp[1024];
+	char url[2048];
 
-	char *line = (char *)param;
+	char *log_line = (char *)param;
 
 	count = 0;
-        token = strtok(line, seperator);
+        token = strtok(log_line, seperator);
 
 	while( token != NULL ) {
 	    token = strtok(NULL, seperator);
-	    if (count == 5 && token != NULL) {
-		strncpy(tmp_line, token, strlen(token) + 1);	
+	    if (count == 2 && token != NULL) {
+		token = token + 1;
+		strncpy(timestamp, token, strlen(token) + 1);
+	    } else if  (count == 5 && token != NULL) {
+		strncpy(url, token, strlen(token) + 1);	
 		for (k = 0; list[k] != NULL; k++) {
 	            	rc = pcre_exec( list[k], NULL, token, (int)strlen(token), 0, 0, ovector, OVECCOUNT );
 			if (rc > 0) {
-	               		printf("Match: %d - %s <=> Regex: %s -\n", k+1, tmp_line, idsxml[k]->rule);
 				for (i=0; idsxml[k]->tag[i] != NULL; i++) {
 				    if (idsxml[k]->tag[i+1] == NULL)
-					printf("%s\n", idsxml[k]->tag[i]);
+					printf("%s - ", idsxml[k]->tag[i]);
 				    else
 					printf("%s,", idsxml[k]->tag[i]);
 				}
+				printf("%s - %s - %s\n", url, log_line, timestamp);  
 			}	
 		}
 		break;
@@ -147,7 +151,7 @@ void *apache_parser(void *param)
 	    count = count + 1;
 	}
 
-	free(line);
+	free(log_line);
 	sem_post(&g_sem);
 
 	pthread_exit(NULL);
