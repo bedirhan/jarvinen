@@ -1,16 +1,24 @@
 jarvinen
 ========
 
-#### Installation
-####### apt-get install libpcre3-dev libxml2-dev
+Installation
+------------
 
-#### Compile
-####### gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
+In order to run jarvinen, some dependency should be install. 
 
-#### Usage 
-####### ./jarvinen -t 10 -l sample.log -f ids.rules 
+ apt-get install libpcre3-dev libxml2-dev
 
-#### ToDo
+Compilation
+-----------
+
+gcc jarvinen.c -o jarvinen -lpthread -lpcre -I/usr/include/libxml2 -lxml2
+
+Usage 
+-----
+./jarvinen -t 10 -l sample.log -f ids.rules 
+
+
+ToDo
  * logging
  * geoip
  * nginx
