@@ -23,6 +23,7 @@ Sample output
 -------------
 
 xss,csrf - /wp-content/plugins/sociable/js/sociable.js?ver=3.4.1 - X.X.X.X - 15/Sep/2012:20:45:39
+
 xss,csrf - /wp-content/plugins/sociable/js/addtofavorites.js?ver=3.4.1 - X.X.X.X - 15/Sep/2012:20:45:39
 
 
