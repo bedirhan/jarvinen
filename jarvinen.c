@@ -166,20 +166,20 @@ static void parseDoc(char *docname, struct IDS_XML_NODE **idsxml) {
         doc = xmlParseFile(docname);
         if (doc == NULL ) {
                 fprintf(stderr,"Document not parsed successfully. \n");
-                return;
+                exit(EXIT_FAILURE);
         }
 
         cur = xmlDocGetRootElement(doc);
         if (cur == NULL) {
                 fprintf(stderr,"empty document\n");
                 xmlFreeDoc(doc);
-                return;
+                exit(EXIT_FAILURE);
         }
 
         if (xmlStrcmp(cur->name, (const xmlChar *) "filters")) {
                 fprintf(stderr,"document of the wrong type, root node != filters");
                 xmlFreeDoc(doc);
-                return;
+                exit(EXIT_FAILURE);
         }
 
         i = 0;
