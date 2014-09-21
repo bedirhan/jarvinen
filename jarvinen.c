@@ -119,8 +119,8 @@ void *apache_parser(void *param)
 	int ovector[OVECCOUNT];
 	char seperator[2] = " ";
 	char *token;
-	char timestamp[1024];
-	char url[2048];
+	char timestamp[TIMESTAMP_LINE];
+	char url[URL_LINE];
 
 	char *log_line = (char *)param;
 
