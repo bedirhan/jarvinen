@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 void *apache_parser(void *param)
 {
 	pcre *re;
-	int rc,count,i,k;
+	int i,k,rc,count = 0;
 	int ovector[OVECCOUNT];
 	char seperator[2] = " ";
 	char *token;
@@ -124,7 +124,6 @@ void *apache_parser(void *param)
 
 	char *log_line = (char *)param;
 
-	count = 0;
         token = strtok(log_line, seperator);
 
 	while( token != NULL ) {
