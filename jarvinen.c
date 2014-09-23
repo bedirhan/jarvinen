@@ -142,7 +142,8 @@ void *apache_parser(void *param)
 				    else
 					printf("%s,", idsxml[k]->tag[i]);
 				}
-				printf("%s - %s - %s\n", url, log_line, timestamp);  
+				// print both rule id for FP analysis and impact for prioritize
+				printf("%s - %s - %s - %s - %s\n", idsxml[k]->id, idsxml[k]->impact, url, log_line, timestamp);  
 			}	
 		}
 		break;
